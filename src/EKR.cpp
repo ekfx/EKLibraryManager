@@ -60,8 +60,8 @@ std::string EKLM::EKR::GetValue(std::string key)
 		return it->second;
 	}
 	else {
-		INFO += "EKLM::EKR::GETPAIR::COULDNT_NOT_FOUND_CONFIG\n";
-		return "EKLM::EKR::GETPAIR::COULDNT_NOT_FOUND_CONFIG";
+		INFO += "EKLM::EKR::GETVALUE::COULDNT_NOT_FOUND_CONFIG\n";
+		return "EKLM::EKR::GETVALUE::COULDNT_NOT_FOUND_CONFIG";
 	}
 }
 
@@ -79,4 +79,8 @@ std::pair<std::string, std::string> EKLM::EKR::GetPair(std::string key) {
 
 void EKLM::EKR::Delete()
 {
+}
+
+void EKLM::EKR::PrintInfo() {
+	std::cerr << INFO;
 }

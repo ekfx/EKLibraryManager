@@ -53,6 +53,8 @@ int EKLM::LDW::DownloadCall() {
 		return -1;
 	}
 
+	INFO += "EKLM::LDW::DOWNLOADCALL::CALLING_SYSTEM\n";
+
 	std::string cmd_t = "if exist \"" + DIR_TGT + "\\" + ARCHIVE_NAME + "\"" + "exit /b 1 else exit /b 0";
 	if (system(cmd_t.c_str()) != 0) {
 		INFO += "EKLM::LDW::DOWNLOADCALL::COULDNT_CREATE_ARCHIVE\n";
@@ -66,4 +68,8 @@ void EKLM::LDW::Delete() {
 
 void EKLM::LDW::PrintInfo() {
 	std::cerr << INFO;
+}
+
+std::string EKLM::LDW::GetArchiveName() {
+	return ARCHIVE_NAME;
 }

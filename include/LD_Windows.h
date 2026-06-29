@@ -33,6 +33,7 @@ namespace EKLM {	// uses powershell and batch -> strongly dependent
 		int DownloadCall();
 		void Delete();
 		void PrintInfo();
+		std::string GetArchiveName();
 	};
 };
 

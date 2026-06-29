@@ -31,6 +31,7 @@ namespace EKLM {
 		virtual int DownloadCall() = 0;
 		virtual void Delete() = 0;
 		virtual void PrintInfo() = 0;
+		virtual std::string GetArchiveName() = 0;
 	};
 };
 

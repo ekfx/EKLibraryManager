@@ -26,6 +26,7 @@ namespace EKLM {
 		std::string GetValue(std::string key);
 		std::pair<std::string, std::string> GetPair(std::string key);
 		void Delete();
+		void PrintInfo();
 	};
 };
 

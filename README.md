@@ -5,6 +5,7 @@ Planned to beginners who have difficulties to start in the programming world, I 
 ## Features
 - C++ 23
 - Powershell Downloader (Windows)
+- Miniz
 
 ## Progress
 Still not complete, I am in the stage of descompress the libraries.

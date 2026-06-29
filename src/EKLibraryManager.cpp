@@ -36,34 +36,61 @@
 
 #include "../include/EKR.h" // -> just reads a archive
 #include "../include/CMD.h" // -> manages the system paths 
+#include "../include/UZIP.h" // -> unzip library
 
 int main() {
+	std::cerr << "EKLM::MAIN::INITIALIZING\n";
+
 	EKLM::EKR datafile;
 	EKLM::CMD cmd;
+	EKLM::UZIP zip;
+
+	std::cerr << "EKLM::MAIN::ALLOCATED_MEMORY\n";
 
 #	ifdef _WIN32
-	std::string key = "boost";
+
+	std::cerr << "EKLM::MAIN::_WIN32\n";
+	std::string key = "glfw";
 	std::string dir = "D:\\EKLMD\\" + key;
+	std::string cadd = "";
 
 	// if (selecionar downloader) -> mais pra frente
 	EKLM::LDW source;
-	datafile.Start("data/data.ek");	// relativo a pasta do projeto
+	std::cerr << "EKLM::MAIN::ALLOCATING_DOWNLOAD_SOURCE\n";
+
+	datafile.Start("../data/data.ek");	// relativo a pasta do projeto
+	std::cerr << "EKLM::MAIN::READING_DATA\n";
 		source.Start();
 		cmd.SetDir(dir);
 
 		source.SetDir(cmd.GetDir().string());
 		source.SetLink(datafile.GetValue(key));
+		datafile.PrintInfo();
 		if (cmd.CreateDir()) {
+			std::cerr << "EKLM::MAIN::CREATING_DIRECTORY\n";
 			// if the creation got success
-			source.DownloadCall();
+			if (source.DownloadCall() == 0) {
+				std::cerr << "EKLM::MAIN::DOWNLOADING\n";
+				cadd = dir + "\\" + source.GetArchiveName();
+
+				source.PrintInfo();
+
+				//if (zip.Unzip(cadd.c_str(), dir.c_str()) == 0) {
+				if (zip.Unzip("D:\\EKLMD\\abrobrinha.zip", "D:\\EKLMD\\abrobrinha") == 0) {
+					std::cerr << "EKLM::MAIN::UNZIPING\n";
+				}
+				zip.GetInfo();
+			}
 		}
 		else {
 			std::cerr << "EKLM::MAIN::UNABLE_TO_CREATE_DIR\n";
 		}
 
-		source.PrintInfo();
 		source.Delete();
 	datafile.Delete();
+	std::cerr << "EKLM::MAIN::DELETING_MEMORY\n";
+
+	system("pause");
 
 #	elif __linux__
 	// doesn't have a linux downloader yet
