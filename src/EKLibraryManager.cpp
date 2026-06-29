@@ -36,21 +36,21 @@
 
 #include "../include/EKR.h" // -> just reads a archive
 #include "../include/CMD.h" // -> manages the system paths 
-#include "../include/UZIP.h" // -> unzip library
+//#include "../include/UZIP.h" // -> unzip library
 
 int main() {
 	std::cerr << "EKLM::MAIN::INITIALIZING\n";
 
 	EKLM::EKR datafile;
 	EKLM::CMD cmd;
-	EKLM::UZIP zip;
+	//EKLM::UZIP zip;
 
 	std::cerr << "EKLM::MAIN::ALLOCATED_MEMORY\n";
 
 #	ifdef _WIN32
 
 	std::cerr << "EKLM::MAIN::_WIN32\n";
-	std::string key = "glfw";
+	std::string key = "imgui";
 	std::string dir = "D:\\EKLMD\\" + key;
 	std::string cadd = "";
 
@@ -60,6 +60,11 @@ int main() {
 
 	datafile.Start("../data/data.ek");	// relativo a pasta do projeto
 	std::cerr << "EKLM::MAIN::READING_DATA\n";
+	/*
+		Ending studies today. Tomorrow, please read this and
+		cleanup and make a diagram or document that explain
+		how it works; for my mind and who gonna see this.
+	*/
 		source.Start();
 		cmd.SetDir(dir);
 
@@ -76,10 +81,24 @@ int main() {
 				source.PrintInfo();
 
 				//if (zip.Unzip(cadd.c_str(), dir.c_str()) == 0) {
-				if (zip.Unzip("D:\\EKLMD\\abrobrinha.zip", "D:\\EKLMD\\abrobrinha") == 0) {
-					std::cerr << "EKLM::MAIN::UNZIPING\n";
-				}
-				zip.GetInfo();
+				//if (zip.Unzip("D:\\EKLMD\\abrobrinha.zip", "D:\\EKLMD\\abrobrinha") == 0) {
+				//	std::cerr << "EKLM::MAIN::UNZIPING\n";
+				//}
+				//zip.GetInfo();
+
+				// please God help me
+
+				cadd = "cd " + dir;
+				system(cadd.c_str());
+
+				system("dir");
+				
+				cadd = "echo powershell -Command \"Expand-Archive -Path \"" + dir + "\\" + source.GetArchiveName() + "\" -DestinationPath " + dir + "\"";
+				system(cadd.c_str());
+				cadd = "powershell -Command \"Expand-Archive -Path \"" + dir + "\\" + source.GetArchiveName() + "\" -DestinationPath " + dir + "\"";
+				system(cadd.c_str());
+				// WORKED WITH POWERSHELL ;)	-> without AI
+				// but its not portable
 			}
 		}
 		else {
