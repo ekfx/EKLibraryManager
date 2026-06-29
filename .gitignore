@@ -4,6 +4,8 @@
 x64/
 x64/x64
 EKLibraryManager/
+build/
+.git/
 
 # arquivos do vs
 EKLibraryManager.sln

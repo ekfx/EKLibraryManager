@@ -57,6 +57,8 @@ int EKLM::LDW::DownloadCall() {
 	if (system(cmd_t.c_str()) != 0) {
 		INFO += "EKLM::LDW::DOWNLOADCALL::COULDNT_CREATE_ARCHIVE\n";
 	} 
+
+	return 0;
 };
 
 void EKLM::LDW::Delete() {
