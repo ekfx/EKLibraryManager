@@ -1,0 +1,16 @@
+# precisa organizar -> malfeito
+# Pastas das quais Git vai ignorar
+.vs/
+x64/
+x64/x64
+EKLibraryManager/
+
+# arquivos do vs
+EKLibraryManager.sln
+EKLibraryManager.vcxproj
+EKLibraryManager.vcxproj.filters
+EKLibraryManager.vcxproj.user
+
+# arquivos do sistema
+Thumbs.db
+.DS_Store
