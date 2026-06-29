@@ -26,7 +26,7 @@
 #include <iostream>
 
 #	ifdef _WIN32
-#	include "LD_Windows.h"
+#	include "../include/LD_Windows.h"
 
 #	elif __linux__
 	
@@ -34,8 +34,8 @@
 	
 #	endif
 
-#include "EKR.h" // -> just reads a archive
-#include "CMD.h" // -> manages the system paths 
+#include "../include/EKR.h" // -> just reads a archive
+#include "../include/CMD.h" // -> manages the system paths 
 
 int main() {
 	EKLM::EKR datafile;
@@ -47,7 +47,7 @@ int main() {
 
 	// if (selecionar downloader) -> mais pra frente
 	EKLM::LDW source;
-	datafile.Start("data.ek");
+	datafile.Start("data/data.ek");	// relativo a pasta do projeto
 		source.Start();
 		cmd.SetDir(dir);
 

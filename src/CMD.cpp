@@ -1,4 +1,4 @@
-#include "CMD.h"
+#include "../include/CMD.h"
 
 EKLM::CMD::CMD()
 {
