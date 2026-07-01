@@ -20,21 +20,30 @@ void EKLM::EKR::Start(const char* path)
 	if (eka.is_open()) {
 		while (std::getline(eka, line)) {
 			for (unsigned int i = 0; i < line.length(); i++) {
+				if (line[0] == '#' || line[0] == ' ') {
 
-				if (line[i] == '=') {
-					trigger_equal = true;
-				}
-
-				if (!trigger_equal) {
-					key += line[i];
 				}
 				else {
+					if (line[i] == ' ') {
+						line.erase(line.begin() + i);
+					}
+
 					if (line[i] == '=') {
+						trigger_equal = true;
+					}
+
+					if (!trigger_equal) {
+						key += line[i];
 					}
 					else {
-						value += line[i];
+						if (line[i] == '=') {
+						}
+						else {
+							value += line[i];
+						}
 					}
 				}
+
 			}
 
 			data.insert({ key, value });

@@ -36,14 +36,14 @@
 
 #include "../include/EKR.h" // -> just reads a archive
 #include "../include/CMD.h" // -> manages the system paths 
-//#include "../include/UZIP.h" // -> unzip library
+#include "../include/UZIP.h" // -> unzip library
 
 int main() {
 	std::cerr << "EKLM::MAIN::INITIALIZING\n";
 
 	EKLM::EKR datafile;
 	EKLM::CMD cmd;
-	//EKLM::UZIP zip;
+	EKLM::UZIP zip;
 
 	std::cerr << "EKLM::MAIN::ALLOCATED_MEMORY\n";
 
@@ -58,12 +58,15 @@ int main() {
 	EKLM::LDW source;
 	std::cerr << "EKLM::MAIN::ALLOCATING_DOWNLOAD_SOURCE\n";
 
-	datafile.Start("../data/data.ek");	// relativo a pasta do projeto
+	datafile.Start("data/data.ek");	// relativo a pasta do projeto
 	std::cerr << "EKLM::MAIN::READING_DATA\n";
 	/*
 		Ending studies today. Tomorrow, please read this and
 		cleanup and make a diagram or document that explain
 		how it works; for my mind and who gonna see this.
+
+		needs add comments syntax to .ek and improve this 
+		unzipping system.
 	*/
 		source.Start();
 		cmd.SetDir(dir);
@@ -78,28 +81,15 @@ int main() {
 				std::cerr << "EKLM::MAIN::DOWNLOADING\n";
 				cadd = dir + "\\" + source.GetArchiveName();
 
-				source.PrintInfo();
+				std::cout << dir << std::endl;
 
-				//if (zip.Unzip(cadd.c_str(), dir.c_str()) == 0) {
-				//if (zip.Unzip("D:\\EKLMD\\abrobrinha.zip", "D:\\EKLMD\\abrobrinha") == 0) {
-				//	std::cerr << "EKLM::MAIN::UNZIPING\n";
-				//}
-				//zip.GetInfo();
-
-				// please God help me
-
-				cadd = "cd " + dir;
-				system(cadd.c_str());
-
-				system("dir");
-				
-				cadd = "echo powershell -Command \"Expand-Archive -Path \"" + dir + "\\" + source.GetArchiveName() + "\" -DestinationPath " + dir + "\"";
-				system(cadd.c_str());
-				cadd = "powershell -Command \"Expand-Archive -Path \"" + dir + "\\" + source.GetArchiveName() + "\" -DestinationPath " + dir + "\"";
-				system(cadd.c_str());
-				// WORKED WITH POWERSHELL ;)	-> without AI
-				// but its not portable
+				if (zip.Unzip(cadd, dir) == 0) {
+					std::cerr << "EKLM::MAIN::UNZIPPING\n";
+					
+				}
+				zip.GetInfo();
 			}
+			source.PrintInfo();
 		}
 		else {
 			std::cerr << "EKLM::MAIN::UNABLE_TO_CREATE_DIR\n";
@@ -109,7 +99,7 @@ int main() {
 	datafile.Delete();
 	std::cerr << "EKLM::MAIN::DELETING_MEMORY\n";
 
-	system("pause");
+	//system("pause");
 
 #	elif __linux__
 	// doesn't have a linux downloader yet

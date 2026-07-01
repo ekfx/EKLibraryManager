@@ -1,12 +1,14 @@
 # variaveis
-CXX = g++
+CXX = x86_64-w64-mingw32-g++
 C = gcc
-CFLAGS = -c 
-CXXFLAGS = -Iinclude -MMD -MP -O0 -g0 -pipe
-LDFLAGS = -Llib-mingw-w64 -lwinmm -mconsole
+CFLAGS = -c
+CXXFLAGS = -Iinclude -MMD -MP -O0 -g0 -pipe -ID:/vcpkg/packages/zlib_x64-windows/include
+LDFLAGS = -Llib-mingw-w64 -lwinmm -mconsole -LD:/vcpkg/packages/zlib_x64-windows/lib
+LDLIBS = -lz
 OUT = build/EKLibraryManager.exe
 MKDIR = if not exist build mkdir build
 RM = rmdir /s /q build
+RUN = $(OUT)
 
 # pega todos arquivos fonte
 SOURCES = $(wildcard src/*.cpp) $(wildcard src/*.c)
@@ -19,6 +21,9 @@ OBJECTS := $(OBJECTS:.c=.o)
 DEPENDS = $(OBJECTS:.o=.d)
 
 all: build_dir compile copy_assets
+
+run:
+	$(RUN)
 
 build_dir:
 	$(MKDIR)
@@ -34,7 +39,7 @@ build/%.o: src/%.c
 -include $(DEPENDS)
 
 compile: $(OBJECTS)
-	$(CXX) $(OBJECTS) $(LDFLAGS) -o $(OUT)
+	$(CXX) $(OBJECTS) $(LDFLAGS) $(LDLIBS) -o $(OUT)
 
 clean:
 	$(RM)

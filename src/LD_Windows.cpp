@@ -48,17 +48,17 @@ int EKLM::LDW::FuseCmd() {	// depends of a filesystem class to give security
 int EKLM::LDW::DownloadCall() {
 	FuseCmd();
 
-	int result = system(FCMD.c_str());	// syntax error
-	if (result != 0) {
+	// Issue: improve download that already had been downloaded
+	if (!std::filesystem::exists(DIR_TGT + "\\" + ARCHIVE_NAME)) {
+		int result = system(FCMD.c_str());	
+		if (result != 0) { return -1; }
+
+		INFO += "EKLM::LDW::DOWNLOADCALL::CALLING_SYSTEM\n";
+	} else {
+		INFO += "EKLM::LDW::DOWNLOADCALL::FILE_ALREADY_EXISTS\n";
+
 		return -1;
 	}
-
-	INFO += "EKLM::LDW::DOWNLOADCALL::CALLING_SYSTEM\n";
-
-	std::string cmd_t = "if exist \"" + DIR_TGT + "\\" + ARCHIVE_NAME + "\"" + "exit /b 1 else exit /b 0";
-	if (system(cmd_t.c_str()) != 0) {
-		INFO += "EKLM::LDW::DOWNLOADCALL::COULDNT_CREATE_ARCHIVE\n";
-	} 
 
 	return 0;
 };

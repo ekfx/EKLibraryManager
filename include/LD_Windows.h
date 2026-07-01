@@ -8,6 +8,7 @@
 #include <map>
 #include <iostream>
 #include <utility>
+#include <filesystem>
 
 namespace EKLM {	// uses powershell and batch -> strongly dependent
 	// Library Downloader

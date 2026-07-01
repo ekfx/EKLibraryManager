@@ -6,9 +6,11 @@ x64/x64
 EKLibraryManager/
 build/
 .git/
+EKLibraryManager/
 
 # arquivos do vs
 EKLibraryManager.sln
+EKLibraryManager.slnx
 EKLibraryManager.vcxproj
 EKLibraryManager.vcxproj.filters
 EKLibraryManager.vcxproj.user

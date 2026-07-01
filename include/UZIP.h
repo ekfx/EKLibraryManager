@@ -1,7 +1,6 @@
 #ifndef UZIP_H
 #define UZIP_H
 
-#include "miniz.h"
 #include <string>
 #include <iostream>
 #include <filesystem>
@@ -15,7 +14,7 @@ namespace EKLM {
 		UZIP();
 		~UZIP();
 
-		int Unzip(const char* path_source, const char* dest_path);
+		int Unzip(const std::string& path_source, const std::string& dest_path);
 		void GetInfo();
 	};
 };
