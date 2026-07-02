@@ -24,6 +24,9 @@
 
 // 					(01/07/2026): needs to improve existing files and
 // 					get users strings
+
+//					made by Eriksander P. Silva: github.com/ekfx/EKLibraryManager
+
 // *//////////////////////////////////////////////////////////////////////////////////////
 
 #include <iostream>
@@ -33,17 +36,36 @@ int main() {
 	EKLM::CORE core;
 	std::string str;
 
-	std::cout << "Digite uma biblioteca: ";
+	std::cout << "--------------------------------------------------------------\n";
+	std::cout << "----------- EK Library Manager CLI Version -------------------\n";
+	std::cout << "--------------------------------------------------------------\n\n";
+
+	std::cout << "1. You Can See All Libraries in data.ek.\n";
+	std::cout << "2. This is a initial student project to high school final exam.\n";
+	std::cout << "3. I would be happy if you give me a feedback in github!\n";
+	std::cout << "4. THANKS!\n\n";
+	std::cout << "Made by: Eriksander Pereira da Silva | github.com/ekfx/EKLibraryManager\n\n";
+
+	std::cout << "Digite Uma Biblioteca: \n";
+	std::cout << "Select a Library: \n";
 	std::getline(std::cin, str);
 	core.SetKey(str);
 
-	std::cout << "Digite endereco destino: ";
+	std::cout << "Endereco Destino / Final Address: \n";
 	std::getline(std::cin, str);	// aceita espaços, essa eu nao conhecia
-	core.SetDownloadDir(str);
+	core.SetDir(str);
+
+	std::cout << "Endereco Relativo EK Data / EK Data Relative Address: \n";
+	std::getline(std::cin, str);	
+	core.SetDataDir(str);
 
 	core.Init();
 	core.Run();
 	core.Delete();
+
+	core.PrintAllInfo();
+
+	system("pause");
 
 	return 0;
 }

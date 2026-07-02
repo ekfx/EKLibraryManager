@@ -25,6 +25,19 @@ int  EKLM::CORE::Init()
     return 0;
 }
 
+int EKLM::CORE::SetDataDir(const std::string& data) {
+    if (!data.empty()) {
+        DATA_NAME = data;
+    } else {
+        INFO += "EKLM::CORE::SETDATADIR::EMPTY_STRING\n";
+        return -1;
+    }
+
+    INIT_DATA = true;
+
+    return 0;
+}
+
 int  EKLM::CORE::SetKey(const std::string& key) 
 {
     if (!key.empty()) {
@@ -39,7 +52,7 @@ int  EKLM::CORE::SetKey(const std::string& key)
     return 0;
 }
 
-int  EKLM::CORE::SetDownloadDir(const std::string& dir) 
+int  EKLM::CORE::SetDir(const std::string& dir) 
 {
     if (!dir.empty()) {
         DIR = dir;
@@ -55,7 +68,7 @@ int  EKLM::CORE::SetDownloadDir(const std::string& dir)
 
 int  EKLM::CORE::Run() 
 {
-    if (INITIALIZED && INIT_DIR && INIT_KEY) {
+    if (INITIALIZED && INIT_DIR && INIT_KEY && INIT_DATA) {
         if (CMD.CreateDir()) {
             // success
             if (LD.Download() == 0) {

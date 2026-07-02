@@ -17,6 +17,7 @@ namespace EKLM {
         bool INITIALIZED                 = 0;                    
         bool INIT_KEY                    = 0;
         bool INIT_DIR                    = 0;
+        bool INIT_DATA                   = 0;
         std::string KEY                  = "";
         std::filesystem::path DATA_NAME  = "data/data.ek";
         std::filesystem::path DIR        = "";
@@ -28,8 +29,9 @@ namespace EKLM {
         ~CORE();
 
         int Init();
+        int SetDataDir(const std::string& data);
         int SetKey(const std::string& key);
-        int SetDownloadDir(const std::string& dir);
+        int SetDir(const std::string& dir);
         int Run();
         void PrintInfo();
         void PrintAllInfo();
