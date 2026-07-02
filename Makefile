@@ -2,9 +2,9 @@
 CXX = x86_64-w64-mingw32-g++
 C = gcc
 CFLAGS = -c
-CXXFLAGS = -Iinclude -MMD -MP -O0 -g0 -pipe -ID:/vcpkg/packages/zlib_x64-windows/include
-LDFLAGS = -Llib-mingw-w64 -lwinmm -mconsole -LD:/vcpkg/packages/zlib_x64-windows/lib
-LDLIBS = -lz
+CXXFLAGS = -Iinclude -MMD -MP -O0 -g0 -pipe -ID:/vcpkg/packages/curl_x64-windows/include
+LDFLAGS = -Llib-mingw-w64 -lwinmm -mconsole -LD:/vcpkg/packages/curl_x64-windows/lib
+LDLIBS = -lz -lcurl
 OUT = build/EKLibraryManager.exe
 MKDIR = if not exist build mkdir build
 RM = rmdir /s /q build

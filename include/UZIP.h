@@ -15,7 +15,7 @@ namespace EKLM {
 		~UZIP();
 
 		int Unzip(const std::string& path_source, const std::string& dest_path);
-		void GetInfo();
+		void PrintInfo();
 	};
 };
 

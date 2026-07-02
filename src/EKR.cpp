@@ -8,7 +8,7 @@ EKLM::EKR::~EKR()
 {
 }
 
-void EKLM::EKR::Start(const char* path)
+void EKLM::EKR::Init(const char* path)
 {
 	INFO += "EKLM::EKR::START::STARTING_EKR\n";
 	std::string line = "";

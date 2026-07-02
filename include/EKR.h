@@ -22,7 +22,7 @@ namespace EKLM {
 		EKR();
 		~EKR();
 
-		void Start(const char* name);
+		void Init(const char* name);
 		std::string GetValue(std::string key);
 		std::pair<std::string, std::string> GetPair(std::string key);
 		void Delete();

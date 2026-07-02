@@ -1,4 +1,4 @@
-#include "miniz.hpp"
+#include "../third_party/miniz.hpp"
 // é um header, o cpp que deve incluir
 #include "../include/UZIP.h"
 
@@ -59,19 +59,23 @@ int EKLM::UZIP::Unzip(const std::string& path_source, const std::string& dest_pa
         // nome do arquivo é concatenado na parte de tras com o endereço destino
         std::cout << filename.c_str() << std::endl;
 
-        // issue: improve verification of a existing archive
-        if (std::filesystem::exists(filename)) {
-            INFO += "EKLM::UZIP::UNZIP::THIS_FILE_ALREADY_EXISTS\n";
-            INFO += "EKLM::UZIP::UNZIP::UNABLE_TO_DELETE\n";
-            
-            return -1;
-        } else {
-            std::filesystem::create_directory(filename);
-        }
-
-        // cria uma pasta com o endereço destino + nome do arquivo
-		mz_zip_reader_extract_to_file(&zip, i, filename.c_str(), 0);
-        // extrai aquele arquivo (representado pelo indice i) para o endereço filename
+		// se for uma pasta
+		if (mz_zip_reader_is_file_a_directory(&zip, i)) {
+			// issue: improve verification of a existing archive
+			if (std::filesystem::exists(filename)) {
+				INFO += "EKLM::UZIP::UNZIP::THIS_FILE_ALREADY_EXISTS\n";
+				INFO += "EKLM::UZIP::UNZIP::UNABLE_TO_DELETE\n";
+				
+				return -1;
+			} else {
+				std::filesystem::create_directory(filename);
+			}
+		} else {
+			// cria uma pasta com o endereço destino + nome do arquivo
+			mz_zip_reader_extract_to_file(&zip, i, filename.c_str(), 0);
+			// extrai aquele arquivo (representado pelo indice i) para o endereço filename
+		}
+		
 	}
 
 	mz_zip_reader_end(&zip);	// desaloca memoria
@@ -80,6 +84,6 @@ int EKLM::UZIP::Unzip(const std::string& path_source, const std::string& dest_pa
 	return 0;
 }
 
-void EKLM::UZIP::GetInfo() {
+void EKLM::UZIP::PrintInfo() {
 	std::cerr << INFO;
 }

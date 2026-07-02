@@ -1,38 +1,41 @@
-#ifndef LD_H
-#define LD_H
+#ifndef LD_PORTABLE_H
+#define LD_PORTABLE_H
 
-#include <Windows.h>
-#include <string>
-#include <map>
+#include <cstdio>   // FILE
 #include <iostream>
-#include <utility>
+#include <string>
+#include <filesystem>
+#include <curl/curl.h>
 
 namespace EKLM {
-	// Library Downloader
-	class LD {
-	protected:
-		std::string				ARCHIVE_NAME = "";
-		std::string				DIR_NAME = "";
-		std::string				URL_TGT = "";
-		std::string				DIR_TGT = "";
-		std::string				CMD_1 = "";
-		std::string				CMD_2 = "";
-		std::string				FCMD = "";
-		std::string				INFO = "";
+    class LDP {
+    private:
+        CURL*       curl;
+        FILE*       source;
+        CURLcode    succode;
+        
+        std::string INFO;
+        std::string URL_TARGET;
+        std::string OUTFILE;
 
-	public:
-		LD() {};
-		~LD() {};
+        std::string DIR_TARGET;
+        std::string FILENAME;
 
-		virtual void Start() = 0;
-		virtual int SetDir(std::string dir) = 0;
-		virtual int SetLink(std::string link) = 0;
-		virtual int FuseCmd() = 0;
-		virtual int DownloadCall() = 0;
-		virtual void Delete() = 0;
-		virtual void PrintInfo() = 0;
-		virtual std::string GetArchiveName() = 0;
-	};
+        public:
+        LDP();
+        ~LDP();
+        
+        // callback para o curl gravar toda vez que receber parte do download
+        static size_t WriteData(void* ptr, size_t size, size_t nmemb, FILE* stream);
+
+        int Init();
+        int SetURL(const std::string& url_target, const std::string& dir_out);
+        int Download();
+        void Delete();
+        void PrintInfo();
+        std::string GetFileName();
+
+    };
 };
 
-#endif // LD_H
+#endif // LD_PORTABLE_H

@@ -1,7 +1,7 @@
 sfml='https://www.sfml-dev.org/files/SFML-3.1.0-sources.zip'
 sdl='https://github.com/libsdl-org/SDL/archive/refs/tags/release-3.4.10.zip'
 googletest='https://github.com/google/googletest/archive/refs/tags/v1.17.0.zip'
-imgui='https://github.com/ocornut/imgui/archive/refs/tags/v1.92.8.zip'
+imgui=https://github.com/ocornut/imgui/archive/refs/tags/v1.92.8.zip
 glfw='https://github.com/glfw/glfw/archive/refs/tags/3.4.zip'
 opencv='https://github.com/opencv/opencv/archive/refs/tags/5.0.0.zip'
 fmt='https://github.com/fmtlib/fmt/archive/refs/tags/12.2.0.zip'
