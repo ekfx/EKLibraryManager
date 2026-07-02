@@ -71,9 +71,9 @@ int EKLM::LDP::Download()
 
     // curl_easy_setopt -> set option/setar opcao
 
-    // verificacoes ssl
-    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
-    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
+    // desativa verificacoes ssl
+    //curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
+    //curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
 
     // seta o url alvo
     curl_easy_setopt(curl, CURLOPT_URL, URL_TARGET.c_str());
