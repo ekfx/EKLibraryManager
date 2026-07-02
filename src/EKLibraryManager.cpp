@@ -50,14 +50,17 @@ int main() {
 	std::cout << "Select a Library: \n";
 	std::getline(std::cin, str);
 	core.SetKey(str);
+	std::cout << "\n";
 
 	std::cout << "Endereco Destino / Final Address: \n";
 	std::getline(std::cin, str);	// aceita espaços, essa eu nao conhecia
-	core.SetDir(str);
+	core.SetDir(str); 
+	std::cout << "\n";
 
 	std::cout << "Endereco Relativo EK Data / EK Data Relative Address: \n";
 	std::getline(std::cin, str);	
 	core.SetDataDir(str);
+	std::cout << "\n";
 
 	core.Init();
 	core.Run();
