@@ -17,11 +17,11 @@ namespace EKLM {
         std::string INFO;
         std::string URL_TARGET;
         std::string OUTFILE;
-
+        
         std::string DIR_TARGET;
         std::string FILENAME;
-
-        public:
+        
+    public:
         LDP();
         ~LDP();
         
@@ -35,7 +35,7 @@ namespace EKLM {
         int Download();
         void Delete();
         void PrintInfo();
-        std::string GetFileName();
+        std::string& GetFileName();
 
     };
 };

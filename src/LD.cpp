@@ -29,10 +29,26 @@ int EKLM::LDP::ShowBar(void* clientp, curl_off_t dltotal, curl_off_t dlnow, curl
 
     } else {
         double BarSize = ((double)dlnow * 100.0) / (double)dltotal;
-        std::cout << "\rProgress: " << (int)BarSize << "%";
+
+        std::string StrBar = "[";
+        for (int i = 0; i < (int)BarSize; i++) {
+            StrBar += "#";
+        } 
+
+        for (int i = 0; i < 100 - (int)BarSize; i++) {
+            StrBar += " ";
+        } 
+        StrBar += "]";
+
+        std::ios_base::sync_with_stdio(false);
+        // o callback é chamado centenas de vezes por segundo
+        // o que significa que é como se sempre estivesse no começo do texto
+        // desativar a sincronia faz ele ir direto pro buffer sem demorar
+        
+        std::cerr << "\r" << StrBar << " - " << (int)BarSize << "%";
         // \r faz com que ele volte o cursor pro começo da linha e escreva por cima.
         // aprendi agora. o \n tira o efeito
-        std::cout.flush();  // -> descarrega buffer e joga pro terminal
+        // std::cout.flush();  // -> descarrega buffer e joga pro terminal
     }
 
     return 0;
@@ -156,6 +172,6 @@ void EKLM::LDP::PrintInfo()
     std::cerr << INFO;
 }
 
-std::string EKLM::LDP::GetFileName() {
+std::string& EKLM::LDP::GetFileName() {
     return FILENAME;
 }

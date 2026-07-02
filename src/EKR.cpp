@@ -69,6 +69,7 @@ std::string EKLM::EKR::GetValue(std::string key)
 		return it->second;
 	}
 	else {
+		std::cerr << "EKLM::EKR::GETVALUE::COULDNT_NOT_FOUND_CONFIG\n";
 		INFO += "EKLM::EKR::GETVALUE::COULDNT_NOT_FOUND_CONFIG\n";
 		return "EKLM::EKR::GETVALUE::COULDNT_NOT_FOUND_CONFIG";
 	}

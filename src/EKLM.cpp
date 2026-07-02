@@ -10,6 +10,10 @@ EKLM::CORE::~CORE()
 
 int  EKLM::CORE::Init() 
 {
+    std::ios_base::sync_with_stdio(false);
+
+    // Internal
+
     DIR = std::filesystem::path(DIR) / KEY;
 
     INFO += "EKLM::CORE::INIT::INITIALIZING\n";
@@ -19,6 +23,12 @@ int  EKLM::CORE::Init()
     LD.SetURL(DATA.GetValue(KEY), DIR.string());
     
     CMD.SetDir(DIR.string());
+
+    // Settings
+
+    // SETTINGS.Init(std::filesystem::path("../DATA/settings.ek").string().c_str());
+    // DATA_NAME = SETTINGS.GetValue("source");
+    // DIR = SETTINGS.GetValue("download_dir");
 
     INITIALIZED = true;
 

@@ -13,6 +13,7 @@ namespace EKLM {
 	    EKLM::CMD CMD;
 	    EKLM::UZIP UZIP;
         EKLM::LDP LD;
+        //EKLM::EKR SETTINGS;
 
         bool INITIALIZED                 = 0;                    
         bool INIT_KEY                    = 0;

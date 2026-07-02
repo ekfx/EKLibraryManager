@@ -47,10 +47,10 @@ int main(int argc, char* argv[]) {
 	}
 
 	if (argc < 2) {
-		std::cout << "Please set more parameters. E.g.: eklm install\n";
+		std::cout << "Please set more parameters, e.g.: eklm install library\n";
 	} 
 	
-	if (msg[1] == "help") {
+	if (msg[1] == "about") {
 		std::string str;
 
 		std::cout << "\n\n--------------------------------------------------------------\n";
@@ -65,28 +65,42 @@ int main(int argc, char* argv[]) {
 			
 	} else if (msg[1] == "install") {
 		if (argc <= 2) {
-			std::cerr << "Please define the library.\n";
+			std::cerr << "Please define the library, e.g.: eklm install library\n";
 
 		} else {
 			std::string lbry = msg[2];
 			std::filesystem::path fdir = std::filesystem::path("C:/EKLMD/");
-			std::filesystem::path ddir = std::filesystem::path("C:\\Users\\black\\Documents\\EKLM\\data\\data.ek");
+			if (!std::filesystem::exists(fdir)) {
+				std::filesystem::create_directory(fdir);
+			}
+
+			std::filesystem::path ddir = std::filesystem::path("C:/EKLMD/DATA/data.ek");
+			if (!std::filesystem::exists(ddir)) {
+				std::filesystem::create_directory(fdir);
+			}
 	
 			core.SetDataDir(ddir.string()); 
 			core.SetDir(fdir.string()); 
 			core.SetKey(lbry);
 	
-			std::cout << "Initializing Download and Uncompressing.\n";
+			std::cout << "Starting\n";
 			core.Init();
 			core.Run();
 			core.Delete();
-			std::cout << "\nFinished Download.\n";
+			std::cout << "\nFinished\n";
 		}
-	} else if (msg[1] == "--version") {
+	} else if (msg[1] == "version") {
 		std::cout << "EK Library Manager v1.0 | Made by Eriksander P. Silva.\n";
+	} else if (msg[1] == "help") {
+		std::cout << "EK Library Manager - Help\n";
+		std::cout << "eklm                     -> Main program call;\n";
+		std::cout << "install library          -> Program install library call;\n";
+		std::cout << "debug                    -> Debug parameter;\n";
+		std::cout << "version                  -> Show version.\n";
+		std::cout << "More info at: github.com/ekfx/EKLibraryManager\n";
 	}
 
-	if (msg[1] == "install" && msg[3] == "--debug") {
+	if (msg[1] == "install" && msg[3] == "debug") {
 		core.PrintAllInfo();
 	}
 
