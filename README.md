@@ -8,7 +8,7 @@ Planned to beginners who have difficulties to start in the programming world, I 
 - Miniz
 
 ## Progress
-Still not complete, I am in the stage of descompress the libraries.
+Still not complete, I am in the stage of compile the libraries and add to path.
 
 ## How to Compile
 1. You will need: CURL and GNU Make already installed in your machine.
