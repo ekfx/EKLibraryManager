@@ -20,4 +20,5 @@ x86_64-w64-mingw32-g++ -Iinclude -MMD -MP -O0 -g0 -pipe -ID:/vcpkg/packages/curl
 x86_64-w64-mingw32-g++ build/CMD.o build/EKLibraryManager.o build/EKR.o build/LD.o build/LD_Portable.o build/LD_Windows.o build/UZIP.o -Llib-mingw-w64 -lwinmm -mconsole -LD:/vcpkg/packages/curl_x64-windows/lib -lz -lcurl -o build/EKLibraryManager.exe
 ```
 or use `make` to compile and `make run` to run.
+
 4. Enjoy my program and don't forget to do a feedback!
