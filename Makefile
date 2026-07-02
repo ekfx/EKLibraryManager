@@ -5,10 +5,11 @@ CFLAGS = -c
 CXXFLAGS = -Iinclude -MMD -MP -O0 -g0 -pipe -ID:/vcpkg/packages/curl_x64-windows/include
 LDFLAGS = -Llib-mingw-w64 -lwinmm -mconsole -LD:/vcpkg/packages/curl_x64-windows/lib
 LDLIBS = -lz -lcurl
-OUT = build/EKLibraryManager.exe
+OUT = build/eklm.exe
 MKDIR = if not exist build mkdir build
 RM = rmdir /s /q build
 RUN = $(OUT)
+RUN_DEBUG = $(OUT) -debug
 
 # pega todos arquivos fonte
 SOURCES = $(wildcard src/*.cpp) $(wildcard src/*.c)
@@ -21,6 +22,9 @@ OBJECTS := $(OBJECTS:.c=.o)
 DEPENDS = $(OBJECTS:.o=.d)
 
 all: build_dir compile copy_assets
+
+run_debug:
+	$(RUN_DEBUG)
 
 run:
 	$(RUN)

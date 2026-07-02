@@ -16,6 +16,28 @@ size_t EKLM::LDP::WriteData(void* ptr, size_t size, size_t nmemb, FILE* stream)
     return written;
 }
 
+int EKLM::LDP::ShowBar(void* clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t ultotal, curl_off_t ulnow) 
+{
+    /*
+        cieltp -> ponteiro pra data personalizada, como UI, bom para qt 
+        dltotal -> tamanho total do download
+        dlnow -> tamanho atual
+        ulnow -> upload agora
+        ultotal -> upload total
+    */
+    if (dltotal == 0) {
+
+    } else {
+        double BarSize = ((double)dlnow * 100.0) / (double)dltotal;
+        std::cout << "\rProgress: " << (int)BarSize << "%";
+        // \r faz com que ele volte o cursor pro começo da linha e escreva por cima.
+        // aprendi agora. o \n tira o efeito
+        std::cout.flush();  // -> descarrega buffer e joga pro terminal
+    }
+
+    return 0;
+}
+
 int EKLM::LDP::Init() 
 {
     INFO += "EKLM::LDP::INIT::INITIALIZING_DOWNLOADER\n";
@@ -56,7 +78,17 @@ int EKLM::LDP::SetURL(const std::string& url_target, const std::string& dir_out)
 
 int EKLM::LDP::Download() 
 {
-    std::string OUTFILE = DIR_TARGET + "\\" + FILENAME;
+    OUTFILE = (std::filesystem::path(DIR_TARGET) / FILENAME).string();
+    
+    // issue: add existing file verification -> solution:
+    // the fopen creates a file, so when the verifications reaches,
+    // the file already exists but wihtout data.
+    if (std::filesystem::exists(OUTFILE)) {
+        INFO += "EKLM::LDP::DOWNLOAD::FILE_ALREADY_EXISTS\n";
+        std::cerr << "EKLM::LDP::DOWNLOAD::FILE_ALREADY_EXISTS\n";
+        return -1;
+    }
+
     // INICIALIZANDO ARQUIVO DE SAIDA
     source = fopen(OUTFILE.c_str(), "wb"); // -> wb é um tipo de escrita binaria
     // é como se fosse abrir um arquivo e enfiar as coisas dentro
@@ -80,6 +112,10 @@ int EKLM::LDP::Download()
     // diz qual funcao vai salvar os dados: WRITEFUNCTION
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, EKLM::LDP::WriteData);
     
+    // barra de progresso
+    curl_easy_setopt(curl, CURLOPT_XFERINFOFUNCTION, EKLM::LDP::ShowBar);
+    curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0L); 
+
     // é a funcao que seta qual é o arquivo que vai receber o download
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, source);
     
@@ -87,17 +123,9 @@ int EKLM::LDP::Download()
     // mudança pra um https, por exemplo, e o curl poder prosseguir
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
     
-    // issue: add existing file verification
-    if (std::filesystem::exists(DIR_TARGET + "\\" + FILENAME)) {
-        succode = curl_easy_perform(curl);  // download de fato
-        fclose(source);     // pega do buffer da ram e coloca em disco
-        
-		INFO += "EKLM::LDP::DOWNLOAD::DOWNLOADING\n";
-	} else {
-		INFO += "EKLM::LDP::DOWNLOAD::FILE_ALREADY_EXISTS\n";
 
-		return -1;
-	}
+    succode = curl_easy_perform(curl);  // download de fato
+    fclose(source);     // pega do buffer da ram e coloca em disco
 
     if (succode == CURLE_OK) {
         INFO += "EKLM::LDP::DOWNLOAD::DOWNLOADED_SUCCEFULLY\n";
@@ -108,7 +136,7 @@ int EKLM::LDP::Download()
         INFO += "\n";
         return -1;
     }
-    
+
     return 0;
 }
 

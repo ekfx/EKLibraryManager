@@ -32,43 +32,63 @@
 #include <iostream>
 #include "../include/EKLM.h"
 
-int main() {
+int main(int argc, char* argv[]) {
 	EKLM::CORE core;
-	std::string str;
 
-	std::cout << "--------------------------------------------------------------\n";
-	std::cout << "----------- EK Library Manager CLI Version -------------------\n";
-	std::cout << "--------------------------------------------------------------\n\n";
+	/*
+		0 - reservado pro sistema, nome eu acho.
+		1 - primeiro comando de fato
+		2 - por ai vai
+	*/
 
-	std::cout << "1. You Can See All Libraries in data.ek.\n";
-	std::cout << "2. This is a initial student project to high school final exam.\n";
-	std::cout << "3. I would be happy if you give me a feedback in github!\n";
-	std::cout << "4. THANKS!\n\n";
-	std::cout << "Made by: Eriksander Pereira da Silva | github.com/ekfx/EKLibraryManager\n\n";
+	std::string msg[argc];
+	for (int i = 0; i < argc; i++) {
+		msg[i] = argv[i];
+	}
 
-	std::cout << "Digite Uma Biblioteca: \n";
-	std::cout << "Select a Library: \n";
-	std::getline(std::cin, str);
-	core.SetKey(str);
-	std::cout << "\n";
+	if (argc < 2) {
+		std::cout << "Please set more parameters. E.g.: eklm install\n";
+	} 
+	
+	if (msg[1] == "help") {
+		std::string str;
 
-	std::cout << "Endereco Destino / Final Address: \n";
-	std::getline(std::cin, str);	// aceita espaços, essa eu nao conhecia
-	core.SetDir(str); 
-	std::cout << "\n";
+		std::cout << "\n\n--------------------------------------------------------------\n";
+		std::cout << "----------- EK Library Manager CMD Version -------------------\n";
+		std::cout << "--------------------------------------------------------------\n\n";
+		
+		std::cout << "1. You Can See All Libraries in data.ek.\n";
+		std::cout << "2. This is a initial student project to high school final exam.\n";
+		std::cout << "3. I would be happy if you give me a feedback in github!\n";
+		std::cout << "4. THANKS!\n\n";
+		std::cout << "Made by: Eriksander Pereira da Silva | github.com/ekfx/EKLibraryManager\n\n";
+			
+	} else if (msg[1] == "install") {
+		if (argc <= 2) {
+			std::cerr << "Please define the library.\n";
 
-	std::cout << "Endereco Relativo EK Data / EK Data Relative Address: \n";
-	std::getline(std::cin, str);	
-	core.SetDataDir(str);
-	std::cout << "\n";
+		} else {
+			std::string lbry = msg[2];
+			std::filesystem::path fdir = std::filesystem::path("C:/EKLMD/");
+			std::filesystem::path ddir = std::filesystem::path("C:\\Users\\black\\Documents\\EKLM\\data\\data.ek");
+	
+			core.SetDataDir(ddir.string()); 
+			core.SetDir(fdir.string()); 
+			core.SetKey(lbry);
+	
+			std::cout << "Initializing Download and Uncompressing.\n";
+			core.Init();
+			core.Run();
+			core.Delete();
+			std::cout << "\nFinished Download.\n";
+		}
+	} else if (msg[1] == "--version") {
+		std::cout << "EK Library Manager v1.0 | Made by Eriksander P. Silva.\n";
+	}
 
-	core.Init();
-	core.Run();
-	core.Delete();
-
-	core.PrintAllInfo();
-
-	system("pause");
+	if (msg[1] == "install" && msg[3] == "--debug") {
+		core.PrintAllInfo();
+	}
 
 	return 0;
 }

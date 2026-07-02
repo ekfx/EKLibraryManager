@@ -57,7 +57,7 @@ int EKLM::UZIP::Unzip(const std::string& path_source, const std::string& dest_pa
 		INFO += filename + "\n";
 		filename = dest_path + '/' + filename;
         // nome do arquivo é concatenado na parte de tras com o endereço destino
-        std::cout << filename.c_str() << std::endl;
+        // std::cout << filename.c_str() << std::endl;
 
 		// se for uma pasta
 		if (mz_zip_reader_is_file_a_directory(&zip, i)) {
