@@ -23,8 +23,9 @@ namespace EKLM {
 		~EKR();
 
 		int Init(std::filesystem::path path);
-		std::string GetValue(std::string key);
-		std::pair<std::string, std::string> GetPair(std::string key);
+		std::string GetValue(const std::string& key);
+		std::pair<std::string, std::string> GetPair(const std::string& key);
+		int Exists(const std::string& key);
 		void Delete();
 		void PrintInfo();
 	};

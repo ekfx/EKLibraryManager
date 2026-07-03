@@ -106,6 +106,11 @@ int  EKLM::CORE::Run()
                         so I have time.
                     */
 
+                    EKW.RegisterInFile(std::filesystem::path("C:\\EKLMD\\DATA\\user_settings.ek").string(), KEY, 
+                                              (std::filesystem::path(DIR.string()) / UZIP.GetRootName()).string());
+
+                    std::cout << GetCompileLine(KEY) << std::endl;
+
                     return 0;
                 } else {
                     INFO += "EKLM::CORE::RUN::COULD_NOT_UNZIP\n";
@@ -138,6 +143,27 @@ void EKLM::CORE::PrintAllInfo()
     CMD.PrintInfo();
     UZIP.PrintInfo();
     LD.PrintInfo();
+}
+
+std::string EKLM::CORE::GetCompileLine(const std::string& KEY) {
+    EKLM::EKR LIBS;
+
+    LIBS.Init(std::filesystem::path("C:\\EKLMD\\DATA\\user_settings.ek"));
+    
+    std::string INCLUDE = "-I" + LIBS.GetValue(KEY) + std::filesystem::path("include").string();
+    std::string LIB = "-L" + LIBS.GetValue(KEY) + std::filesystem::path("lib").string();
+    std::string ROOT = "-I" + LIBS.GetValue(KEY) + " " + "-L" + LIBS.GetValue(KEY);
+    std::string STDROOT = LIBS.GetValue(KEY) + KEY + "*.cpp";
+    // ainda apenas para cpp
+    std::string COMPILER = "x86_64-w64-mingw32-g++ -std=c++20";
+    std::string EXE = "main.exe";
+    std::string TARGET = "main.cpp";
+    std::string FLAGS = "-lgdi32 -ldwmapi -o";
+    std::string FLINE = COMPILER + " " + TARGET + " " + STDROOT + " " + ROOT + " " + INCLUDE + " " + LIB + " " + FLAGS + " " + EXE;
+    
+    return FLINE;
+    // x86_64-w64-mingw32-g++ -Iinclude -MMD -MP -O0 -g0 -pipe -ID:/vcpkg/packages/curl_x64-windows/include -c src/EKLM.cpp -o build/EKLM.o
+    // <compilador> <versão c++> <arquivo alvo> <raiz biblioteca> <include -I> <libs -L> <flags -l> <modificador> <arquivo final>
 }
 
 void EKLM::CORE::Delete() 

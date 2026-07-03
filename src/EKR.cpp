@@ -63,7 +63,7 @@ int EKLM::EKR::Init(std::filesystem::path path)
 	return 0;
 }
 
-std::string EKLM::EKR::GetValue(std::string key)
+std::string EKLM::EKR::GetValue(const std::string& key)
 {
 	auto it = data.find(key);
 
@@ -77,15 +77,27 @@ std::string EKLM::EKR::GetValue(std::string key)
 	}
 }
 
-std::pair<std::string, std::string> EKLM::EKR::GetPair(std::string key) {
+std::pair<std::string, std::string> EKLM::EKR::GetPair(const std::string& key) {
 	auto it = data.find(key);
 
 	if (it != data.end()) {
 		return {it->first, it->second };
 	}
 	else {
-		INFO += "EKLM::EKR::GETPAIR::COULDNT_NOT_FOUND_CONFIG\n";
+		INFO += "EKLM::EKR::GETPAIR::COULDNT_NOT_FOUND_KEY\n";
 		return { "0", "0" };	
+	}
+}
+
+int EKLM::EKR::Exists(const std::string& key) {
+	auto it = data.find(key);
+
+	if (it != data.end()) {
+		return 1;
+	}
+	else {
+		INFO += "EKLM::EKR::GETPAIR::COULDNT_NOT_FOUND_KEY\n";
+		return 0;	
 	}
 }
 

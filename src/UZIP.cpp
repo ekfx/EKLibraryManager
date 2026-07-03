@@ -56,7 +56,12 @@ int EKLM::UZIP::Unzip(const std::string& path_source, const std::string& dest_pa
 		}
 
 		INFO += filename + "\n";
-		filename = dest_path + '/' + filename;
+		filename = (std::filesystem::path(dest_path) / filename).string();
+		if (i == 0) {
+			filename.erase(std::remove(filename.begin(), filename.end(), ' '), filename.end());
+			ROOT_NAME = filename.c_str();
+			// para remover todos espaçoes em braqnco
+		}
         // nome do arquivo é concatenado na parte de tras com o endereço destino
         // std::cout << filename.c_str() << std::endl;
 
@@ -87,4 +92,8 @@ int EKLM::UZIP::Unzip(const std::string& path_source, const std::string& dest_pa
 
 void EKLM::UZIP::PrintInfo() {
 	std::cerr << INFO;
+}
+
+std::string EKLM::UZIP::GetRootName(){
+	return ROOT_NAME;
 }

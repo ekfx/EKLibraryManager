@@ -72,7 +72,7 @@ int main(int argc, char* argv[]) {
 		if (argc <= 2) {
 			std::cerr << "Please define the library, e.g.: eklm install library\n";
 
-		} else if (argc >= 4) {
+		} else if (argc > 4) {
 			std::cerr << "Too much parameters.\n";
 			return -1;
 

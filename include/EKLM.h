@@ -5,14 +5,17 @@
 #include "../include/EKR.h" // -> just reads a archive
 #include "../include/CMD.h" // -> manages the system paths 
 #include "../include/UZIP.h" // -> unzip library
+#include "../include/EKW.h"
 
 namespace EKLM {
     class CORE {
     private:
         EKLM::EKR DATA;
+        EKLM::EKR LIBS;
 	    EKLM::CMD CMD;
 	    EKLM::UZIP UZIP;
         EKLM::LDP LD;
+        EKLM::EKW EKW;
 
         bool INITIALIZED                 = 0;                    
         bool INIT_KEY                    = 0;
@@ -35,6 +38,7 @@ namespace EKLM {
         int Run();
         void PrintInfo();
         void PrintAllInfo();
+        std::string GetCompileLine(const std::string& KEY);
         void Delete();
 
     };
