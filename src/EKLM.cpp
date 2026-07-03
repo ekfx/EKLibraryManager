@@ -109,8 +109,6 @@ int  EKLM::CORE::Run()
                     EKW.RegisterInFile(std::filesystem::path("C:\\EKLMD\\DATA\\user_settings.ek").string(), KEY, 
                                               (std::filesystem::path(DIR.string()) / UZIP.GetRootName()).string());
 
-                    std::cout << GetCompileLine(KEY) << std::endl;
-
                     return 0;
                 } else {
                     INFO += "EKLM::CORE::RUN::COULD_NOT_UNZIP\n";
@@ -143,6 +141,10 @@ void EKLM::CORE::PrintAllInfo()
     CMD.PrintInfo();
     UZIP.PrintInfo();
     LD.PrintInfo();
+}
+
+void EKLM::CORE::PrintFLINE() {
+    std::cout << GetCompileLine(KEY) << std::endl;
 }
 
 std::string EKLM::CORE::GetCompileLine(const std::string& KEY) {

@@ -128,9 +128,28 @@ int main(int argc, char* argv[]) {
 			std::cout << "debug                    -> Debug parameter;\n";
 			std::cout << "version                  -> Show version.\n";
 			std::cout << "More info at: github.com/ekfx/EKLibraryManager\n";
+
+		}
+	} else if (msg[1] == "line") {
+		if (!msg[2].empty()) {
+			// msg[2] -> KEY
+			std::cerr << core.GetCompileLine(msg[2]) << std::endl;
+		} else {
+			std::cerr << "Please define the library, e.g.: eklm line library. Or use:\n";
+			std::cerr << "g++ -std=c++17 main.cpp -o main\n";
+
+		}
+	} else if (msg[1] == "compile") {
+		if (!msg[2].empty()) {
+			system(core.GetCompileLine(msg[2]).c_str());
+
+		} else {
+			system("g++ -std=c++20 main.cpp -o main.exe");
+
 		}
 	} else {
 		std::cerr << "Unknown Command. See eklm help to more info.\n";
+
 	}
 
 	if (msg[1] == "install" && msg[3] == "debug") {

@@ -38,6 +38,7 @@ namespace EKLM {
         int Run();
         void PrintInfo();
         void PrintAllInfo();
+        void PrintFLINE();
         std::string GetCompileLine(const std::string& KEY);
         void Delete();
 
