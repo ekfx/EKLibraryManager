@@ -17,18 +17,17 @@ int  EKLM::CORE::Init()
     DIR = std::filesystem::path(DIR) / KEY;
 
     INFO += "EKLM::CORE::INIT::INITIALIZING\n";
-    DATA.Init(DATA_NAME.string().c_str());
+    if (DATA.Init(DATA_NAME.string().c_str()) != 0) {
+        std::cerr << "Couldn't found data.ek at \"C:/EKLMD/DATA/data.ek\", please create one or get\n";
+        std::cerr << "from github.com/ekfx/EKLibraryManager. This is a\n";
+        std::cerr << "important file that contains link source.";
+        return -1;
+    }
     
     LD.Init();
     LD.SetURL(DATA.GetValue(KEY), DIR.string());
     
     CMD.SetDir(DIR.string());
-
-    // Settings
-
-    // SETTINGS.Init(std::filesystem::path("../DATA/settings.ek").string().c_str());
-    // DATA_NAME = SETTINGS.GetValue("source");
-    // DIR = SETTINGS.GetValue("download_dir");
 
     INITIALIZED = true;
 
@@ -86,6 +85,26 @@ int  EKLM::CORE::Run()
 
                 if (UZIP.Unzip(FILE_DIR.string(), DIR.string()) == 0) {
                     // build and path codes here
+                    /*
+                        plans to not use path, but create a .bat or automatize the cmd line
+                        to compile, due to overcharge of the path, I will just create the 
+                        cmd line and put it on a archive, adding the directory lib and include
+                        for each library that the user wants. I will need two files:
+                        1. the cmd line
+                        2. the installed libraries and their respective directories
+
+                        I will read the 2 and put it all on a map, in the program I will automatize
+                        the -I and -L flags using the directories in the file; prevening errors,
+                        I will check if the directory exists, else I will return -1 and exit.
+
+                        by the way, I want to create a friendly environment and create buttons like:
+                        <debug compile> -> this help you, developer, to find errors and create a better application.
+
+                        when I finished this logic part, I want to get started in QT and  create this
+                        helper to beginners. I don't know HOW I will find the compiler or if the user
+                        doesn't have a compiler, but its the 4th day of this project, and I have 2,5 years,
+                        so I have time.
+                    */
 
                     return 0;
                 } else {

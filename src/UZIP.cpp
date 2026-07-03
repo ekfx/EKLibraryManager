@@ -21,6 +21,7 @@ int EKLM::UZIP::Unzip(const std::string& path_source, const std::string& dest_pa
 
 	if (!std::filesystem::exists(path_source)) {
 		INFO += "EKLM::UZIP::UNZIP::THIS_PATH_DOESNT_EXISTS\n";
+		INFO += "EKLM::UZIP::UNZIP::CURRENT_PATH::" + path_source + "\n";
 		return -1;
 	} 
 

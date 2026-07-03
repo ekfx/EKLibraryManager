@@ -99,9 +99,10 @@ int EKLM::LDP::Download()
     // issue: add existing file verification -> solution:
     // the fopen creates a file, so when the verifications reaches,
     // the file already exists but wihtout data.
+    std::ios_base::sync_with_stdio(false);
     if (std::filesystem::exists(OUTFILE)) {
         INFO += "EKLM::LDP::DOWNLOAD::FILE_ALREADY_EXISTS\n";
-        std::cerr << "EKLM::LDP::DOWNLOAD::FILE_ALREADY_EXISTS\n";
+        std::clog << "EKLM::LDP::DOWNLOAD::FILE_ALREADY_EXISTS\n";
         return -1;
     }
 

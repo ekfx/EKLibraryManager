@@ -51,53 +51,86 @@ int main(int argc, char* argv[]) {
 	} 
 	
 	if (msg[1] == "about") {
-		std::string str;
+		if (argc >= 3) {
+			std::cerr << "Too much parameters.\n";
+			return -1;
 
-		std::cout << "\n\n--------------------------------------------------------------\n";
-		std::cout << "----------- EK Library Manager CMD Version -------------------\n";
-		std::cout << "--------------------------------------------------------------\n\n";
-		
-		std::cout << "1. You Can See All Libraries in data.ek.\n";
-		std::cout << "2. This is a initial student project to high school final exam.\n";
-		std::cout << "3. I would be happy if you give me a feedback in github!\n";
-		std::cout << "4. THANKS!\n\n";
-		std::cout << "Made by: Eriksander Pereira da Silva | github.com/ekfx/EKLibraryManager\n\n";
+		} else {
+			std::string str;
+	
+			std::cout << "\n\n--------------------------------------------------------------\n";
+			std::cout << "----------- EK Library Manager CMD Version -------------------\n";
+			std::cout << "--------------------------------------------------------------\n\n";
 			
+			std::cout << "1. You Can See All Libraries in data.ek.\n";
+			std::cout << "2. This is a initial student project to high school final exam.\n";
+			std::cout << "3. I would be happy if you give me a feedback in github!\n";
+			std::cout << "4. THANKS!\n\n";
+			std::cout << "Made by: Eriksander Pereira da Silva | github.com/ekfx/EKLibraryManager\n\n";
+		}
 	} else if (msg[1] == "install") {
 		if (argc <= 2) {
 			std::cerr << "Please define the library, e.g.: eklm install library\n";
 
+		} else if (argc >= 4) {
+			std::cerr << "Too much parameters.\n";
+			return -1;
+
 		} else {
 			std::string lbry = msg[2];
-			std::filesystem::path fdir = std::filesystem::path("C:/EKLMD/");
-			if (!std::filesystem::exists(fdir)) {
-				std::filesystem::create_directory(fdir);
-			}
 
-			std::filesystem::path ddir = std::filesystem::path("C:/EKLMD/DATA/data.ek");
-			if (!std::filesystem::exists(ddir)) {
-				std::filesystem::create_directory(fdir);
+			EKLM::EKR SRD;
+
+			if (SRD.Init("C:/EKLMD/DATA/settings.ek") != 0) {
+				std::cerr << "Couldn't found settings.ek at \"C:/EKLMD/DATA/settings.ek\", please create one or get\nfrom github.com/ekfx/EKLibraryManager.";
+				return -1;
+
+			} else {
+				std::filesystem::path fdir = SRD.GetValue("download_dir");
+				if (!std::filesystem::exists(fdir)) {
+					std::filesystem::create_directory(fdir);
+				}
+	
+				std::filesystem::path ddir = SRD.GetValue("source");
+				if (!std::filesystem::exists(ddir)) {
+					std::filesystem::create_directory(fdir);
+				}
+
+				core.SetDataDir(ddir.string()); 
+				core.SetDir(fdir.string()); 
+				core.SetKey(lbry);
+		
+				std::cout << "Starting\n";
+				core.Init();
+				core.Run();
+				core.Delete();
+				std::cout << "\nFinished\n";
 			}
-	
-			core.SetDataDir(ddir.string()); 
-			core.SetDir(fdir.string()); 
-			core.SetKey(lbry);
-	
-			std::cout << "Starting\n";
-			core.Init();
-			core.Run();
-			core.Delete();
-			std::cout << "\nFinished\n";
 		}
 	} else if (msg[1] == "version") {
-		std::cout << "EK Library Manager v1.0 | Made by Eriksander P. Silva.\n";
+		if (argc >= 3) {
+			std::cerr << "Too much parameters.\n";
+			return -1;
+
+		} else {
+			std::cout << "EK Library Manager v1.0 | Made by Eriksander P. Silva.\n";
+
+		}
 	} else if (msg[1] == "help") {
-		std::cout << "EK Library Manager - Help\n";
-		std::cout << "eklm                     -> Main program call;\n";
-		std::cout << "install library          -> Program install library call;\n";
-		std::cout << "debug                    -> Debug parameter;\n";
-		std::cout << "version                  -> Show version.\n";
-		std::cout << "More info at: github.com/ekfx/EKLibraryManager\n";
+		if (argc >= 3) {
+			std::cerr << "Too much parameters.\n";
+			return -1;
+
+		} else {
+			std::cout << "EK Library Manager - Help\n";
+			std::cout << "eklm                     -> Main program call;\n";
+			std::cout << "install library          -> Program install library call;\n";
+			std::cout << "debug                    -> Debug parameter;\n";
+			std::cout << "version                  -> Show version.\n";
+			std::cout << "More info at: github.com/ekfx/EKLibraryManager\n";
+		}
+	} else {
+		std::cerr << "Unknown Command. See eklm help to more info.\n";
 	}
 
 	if (msg[1] == "install" && msg[3] == "debug") {

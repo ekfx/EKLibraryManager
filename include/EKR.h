@@ -22,7 +22,7 @@ namespace EKLM {
 		EKR();
 		~EKR();
 
-		void Init(const char* name);
+		int Init(std::filesystem::path path);
 		std::string GetValue(std::string key);
 		std::pair<std::string, std::string> GetPair(std::string key);
 		void Delete();

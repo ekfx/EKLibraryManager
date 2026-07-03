@@ -8,7 +8,7 @@ EKLM::EKR::~EKR()
 {
 }
 
-void EKLM::EKR::Init(const char* path)
+int EKLM::EKR::Init(std::filesystem::path path)
 {
 	INFO += "EKLM::EKR::START::STARTING_EKR\n";
 	std::string line = "";
@@ -57,8 +57,10 @@ void EKLM::EKR::Init(const char* path)
 	else {
 		INFO += "EKLM::EKR::START::COULDNT_OPEN_ARCHIVE\n";
 		INFO += "EKLM::EKR::START::CURRENT_PATH::" + std::filesystem::current_path().string() + "\n";
+		return -1;
 	}
 	eka.close();
+	return 0;
 }
 
 std::string EKLM::EKR::GetValue(std::string key)
@@ -69,9 +71,9 @@ std::string EKLM::EKR::GetValue(std::string key)
 		return it->second;
 	}
 	else {
-		std::cerr << "EKLM::EKR::GETVALUE::COULDNT_NOT_FOUND_CONFIG\n";
-		INFO += "EKLM::EKR::GETVALUE::COULDNT_NOT_FOUND_CONFIG\n";
-		return "EKLM::EKR::GETVALUE::COULDNT_NOT_FOUND_CONFIG";
+		std::cerr << "EKLM::EKR::GETVALUE::COULDNT_NOT_FOUND_KEY\n";
+		INFO += "EKLM::EKR::GETVALUE::COULDNT_NOT_FOUND_KEY\n";
+		return "EKLM::EKR::GETVALUE::COULDNT_NOT_FOUND_KEY";
 	}
 }
 

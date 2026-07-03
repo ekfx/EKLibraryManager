@@ -18,6 +18,7 @@ namespace EKLM {
 
 		int SetDir(std::filesystem::path dir);
 		int CreateDir();
+		int DeleteDir();
 		void PrintInfo();
 		std::filesystem::path GetDir();
 	};

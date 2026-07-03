@@ -38,6 +38,15 @@ int EKLM::CMD::CreateDir() {
 	return -1;
 }
 
+int EKLM::CMD::DeleteDir() {
+	if (std::filesystem::remove_all(DIR.string())) {
+		return 1;	// success and new created
+	}
+	else {
+		return -1;
+	}
+}
+
 void EKLM::CMD::PrintInfo() {
 	std::cerr << INFO;
 }
