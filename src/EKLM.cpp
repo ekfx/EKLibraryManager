@@ -17,7 +17,7 @@ int  EKLM::CORE::Init()
     DIR = std::filesystem::path(DIR) / KEY;
 
     INFO += "EKLM::CORE::INIT::INITIALIZING\n";
-    if (DATA.Init(DATA_NAME.string().c_str()) != 0) {
+    if (DATA.Init(DATA_NAME.string()) != 0) {
         std::cerr << "Couldn't found data.ek at \"C:/EKLMD/DATA/data.ek\", please create one or get\n";
         std::cerr << "from github.com/ekfx/EKLibraryManager. This is a\n";
         std::cerr << "important file that contains link source.";
@@ -100,14 +100,21 @@ int  EKLM::CORE::Run()
                         by the way, I want to create a friendly environment and create buttons like:
                         <debug compile> -> this help you, developer, to find errors and create a better application.
 
-                        when I finished this logic part, I want to get started in QT and  create this
+                        when I finish this logic part, I want to get started in QT and  create this
                         helper to beginners. I don't know HOW I will find the compiler or if the user
                         doesn't have a compiler, but its the 4th day of this project, and I have 2,5 years,
                         so I have time.
                     */
 
-                    EKW.RegisterInFile(std::filesystem::path("C:\\EKLMD\\DATA\\user_settings.ek").string(), KEY, 
-                                              (std::filesystem::path(DIR.string()) / UZIP.GetRootName()).string());
+                    std::string _DIR = (std::filesystem::path(DIR.string()) / UZIP.GetRootName()).make_preferred().string();
+                    std::string _I = "-I" + _DIR + "include ";
+                    std::string _L = "-L" + _DIR + "lib";
+                    std::string _l = "-l";
+                    EKW.RegisterInFile(std::filesystem::path("C:\\EKLMD\\DATA\\" + KEY + ".ek").string(), "name", KEY);
+                    EKW.RegisterInFile(std::filesystem::path("C:\\EKLMD\\DATA\\" + KEY + ".ek").string(), "directory", _DIR);
+                    EKW.RegisterInFile(std::filesystem::path("C:\\EKLMD\\DATA\\" + KEY + ".ek").string(), "include", _I);
+                    EKW.RegisterInFile(std::filesystem::path("C:\\EKLMD\\DATA\\" + KEY + ".ek").string(), "lib", _L);
+                    EKW.RegisterInFile(std::filesystem::path("C:\\EKLMD\\DATA\\" + KEY + ".ek").string(), "flags", _l);
 
                     return 0;
                 } else {
@@ -143,27 +150,37 @@ void EKLM::CORE::PrintAllInfo()
     LD.PrintInfo();
 }
 
-void EKLM::CORE::PrintFLINE() {
-    std::cout << GetCompileLine(KEY) << std::endl;
-}
-
-std::string EKLM::CORE::GetCompileLine(const std::string& KEY) {
+std::string EKLM::CORE::GetCompileLine(const std::vector<std::string>& KEY, EKLM::EKR& SETTINGS) {
     EKLM::EKR LIBS;
 
-    LIBS.Init(std::filesystem::path("C:\\EKLMD\\DATA\\user_settings.ek"));
+    std::string name = "";
+    std::string compiler = SETTINGS.GetValue("compiler");
+    std::string version = SETTINGS.GetValue("version");
+    std::string file_tgt = SETTINGS.GetValue("main_file_name");
+    std::string exit_file_name = SETTINGS.GetValue("exit_file_name");
+    std::string root_lib = "";
+    std::string _I = "";    // include
+    std::string _L = "";    // libs
+    std::string _l = "";    // flags
+    std::string _m = "";    // modifiers
+
+    std::cout << "\n\n";
+
+    for (auto& i : KEY) {
+        name = "C:\\EKLMD\\DATA\\";
+        name += i; 
+        name += ".ek";
+        LIBS.Init(std::filesystem::path(name));
+        //root_lib = LIBS.GetValue("directory");
+        _I += LIBS.GetValue("include") + " ";
+        //_L += LIBS.GetValue("lib") + " ";
+        _l += LIBS.GetValue("flags") + " ";
+        _m += SETTINGS.GetValue("modifiers") + " ";
+    }
     
-    std::string INCLUDE = "-I" + LIBS.GetValue(KEY) + std::filesystem::path("include").string();
-    std::string LIB = "-L" + LIBS.GetValue(KEY) + std::filesystem::path("lib").string();
-    std::string ROOT = "-I" + LIBS.GetValue(KEY) + " " + "-L" + LIBS.GetValue(KEY);
-    std::string STDROOT = LIBS.GetValue(KEY) + KEY + "*.cpp";
-    // ainda apenas para cpp
-    std::string COMPILER = "x86_64-w64-mingw32-g++ -std=c++20";
-    std::string EXE = "main.exe";
-    std::string TARGET = "main.cpp";
-    std::string FLAGS = "-lgdi32 -ldwmapi -o";
-    std::string FLINE = COMPILER + " " + TARGET + " " + STDROOT + " " + ROOT + " " + INCLUDE + " " + LIB + " " + FLAGS + " " + EXE;
-    
-    return FLINE;
+    std::string cmd = compiler + " " + version + " " + file_tgt + " " + root_lib + " " + _I + " " + _L + " " + _l + " " + _m + " " + exit_file_name;
+
+    return cmd;
     // x86_64-w64-mingw32-g++ -Iinclude -MMD -MP -O0 -g0 -pipe -ID:/vcpkg/packages/curl_x64-windows/include -c src/EKLM.cpp -o build/EKLM.o
     // <compilador> <versão c++> <arquivo alvo> <raiz biblioteca> <include -I> <libs -L> <flags -l> <modificador> <arquivo final>
 }

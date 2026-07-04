@@ -1,39 +1,50 @@
-// /*/////////////////////////////////////////////////////////////////////////////////////
-// 	Name: LibraryManager.cpp
-// 	Created: 25/06/2026
-// 	Last Modification: 01/07/2026
-// 	Description:	This project will handle a small idea of 
-// 					library manager, thats reads a file with links
-// 					download those source codes, build them and
-// 					link in the path. Originally thought to
-// 					Windows user who wants to get started in
-// 					programming world without many difficulties.
-// 					In the future may I add Linux and MAC features.
-// 					I hope I could end this project.
+/*/////////////////////////////////////////////////////////////////////////////////////
+	Name: LibraryManager.cpp
+	Created: 25/06/2026
+	Last Modification: 01/07/2026
+	Description:	This project will handle a small idea of 
+					library manager, thats reads a file with links
+					download those source codes, build them and
+					link in the path. Originally thought to
+					Windows user who wants to get started in
+					programming world without many difficulties.
+					In the future may I add Linux and MAC features.
+					I hope I could end this project.
 
-// 					Technologies:
-// 					- Qt Framework
-// 					- C++ 17
-// 					- curl
-// 					- miniz.h
-// 					- CMake
+					Technologies:
+					- Qt Framework
+					- C++ 17
+					- curl
+					- miniz.h
+					- CMake
 
-// 					Today (28/06/2026): needs to improve the security
-// 					and resistance of directories and urls, and
-// 					get system messages.
+					Today (28/06/2026): needs to improve the security
+					and resistance of directories and urls, and
+					get system messages.
 
-// 					(01/07/2026): needs to improve existing files and
-// 					get users strings
+					(01/07/2026): needs to improve existing files and
+					get users strings
 
-//					made by Eriksander P. Silva: github.com/ekfx/EKLibraryManager
+					made by Eriksander P. Silva: github.com/ekfx/EKLibraryManager
+					
+					04/07/2026 Pausing for a week: I already finished the downloading, 
+					the unzipping, and some file streams to use the program, when I
+					come back I will finish this string part to the compile line
+					and then detect the compiler, after that, I think I will be
+					ready to getting started in qt. This pause is not a defeat, 
+					but a cause from my rotine, because I study computer graphics too,
+					so I will stop for a while. 
+					
 
-// *//////////////////////////////////////////////////////////////////////////////////////
+*//////////////////////////////////////////////////////////////////////////////////////
 
 #include <iostream>
 #include "../include/EKLM.h"
 
 int main(int argc, char* argv[]) {
+	std::ios_base::sync_with_stdio(false);
 	EKLM::CORE core;
+	EKLM::EKR settings;	// pega info do settings.ek
 
 	/*
 		0 - reservado pro sistema, nome eu acho.
@@ -79,25 +90,25 @@ int main(int argc, char* argv[]) {
 		} else {
 			std::string lbry = msg[2];
 
-			EKLM::EKR SRD;
-
-			if (SRD.Init("C:/EKLMD/DATA/settings.ek") != 0) {
+			
+			if (settings.Init("C:/EKLMD/DATA/settings.ek") != 0) {
 				std::cerr << "Couldn't found settings.ek at \"C:/EKLMD/DATA/settings.ek\", please create one or get\nfrom github.com/ekfx/EKLibraryManager.";
 				return -1;
 
 			} else {
-				std::filesystem::path fdir = SRD.GetValue("download_dir");
+				std::filesystem::path fdir = settings.GetValue("download_dir");
+				std::cout << fdir.make_preferred().string() << std::endl;
 				if (!std::filesystem::exists(fdir)) {
 					std::filesystem::create_directory(fdir);
 				}
-	
-				std::filesystem::path ddir = SRD.GetValue("source");
+				
+				std::filesystem::path ddir = settings.GetValue("source");
 				if (!std::filesystem::exists(ddir)) {
 					std::filesystem::create_directory(fdir);
 				}
 
-				core.SetDataDir(ddir.string()); 
-				core.SetDir(fdir.string()); 
+				core.SetDataDir(ddir.make_preferred().string()); 
+				core.SetDir(fdir.make_preferred().string()); 
 				core.SetKey(lbry);
 		
 				std::cout << "Starting\n";
@@ -125,36 +136,68 @@ int main(int argc, char* argv[]) {
 			std::cout << "EK Library Manager - Help\n";
 			std::cout << "eklm                     -> Main program call;\n";
 			std::cout << "install library          -> Program install library call;\n";
+			std::cout << "line library             -> Program gives a build line\n";
+			std::cout << "compile                  -> compile with stardant command\n";
 			std::cout << "debug                    -> Debug parameter;\n";
 			std::cout << "version                  -> Show version.\n";
 			std::cout << "More info at: github.com/ekfx/EKLibraryManager\n";
 
 		}
 	} else if (msg[1] == "line") {
-		if (!msg[2].empty()) {
-			// msg[2] -> KEY
-			std::cerr << core.GetCompileLine(msg[2]) << std::endl;
+		if (argc >= 3) {
+			if (settings.Init("C:/EKLMD/DATA/settings.ek") != 0) {
+				std::cerr << "Couldn't found settings.ek at \"C:/EKLMD/DATA/settings.ek\", please create one or get\nfrom github.com/ekfx/EKLibraryManager.";
+				return -1;
+
+			} else {
+				// msg[2] -> KEY
+				std::vector<std::string> libs;
+				for (int i = 2; i < argc; i++) {
+					libs.push_back(msg[i]);
+				}
+	
+				std::cerr << core.GetCompileLine(libs, settings) << std::endl;
+	
+				// Should delete? it doesnt allocate nothing in curl
+				core.Delete();
+			}
+
 		} else {
 			std::cerr << "Please define the library, e.g.: eklm line library. Or use:\n";
 			std::cerr << "g++ -std=c++17 main.cpp -o main\n";
-
 		}
 	} else if (msg[1] == "compile") {
-		if (!msg[2].empty()) {
-			system(core.GetCompileLine(msg[2]).c_str());
+		if (argc >= 3) {
+			if (settings.Init("C:/EKLMD/DATA/settings.ek") != 0) {
+				std::cerr << "Couldn't found settings.ek at \"C:/EKLMD/DATA/settings.ek\", please create one or get\nfrom github.com/ekfx/EKLibraryManager.";
+				return -1;
+
+			} else {
+				// msg[2] -> KEY
+				std::vector<std::string> libs;
+				for (int i = 2; i < argc; i++) {
+					libs.push_back(msg[i]);
+				}
+				
+				// erro -> const char esta cortando no \0
+				system(core.GetCompileLine(libs, settings).c_str());
+	
+				// Should delete? it doesnt allocate nothing in curl
+				core.Delete();
+			}
 
 		} else {
-			system("g++ -std=c++20 main.cpp -o main.exe");
-
+			std::cerr << "Please define the library, e.g.: eklm compile library. Or use:\n";
 		}
+
 	} else {
 		std::cerr << "Unknown Command. See eklm help to more info.\n";
-
 	}
 
-	if (msg[1] == "install" && msg[3] == "debug") {
-		core.PrintAllInfo();
-	}
+		if (msg[1] == "install" && msg[3] == "debug") {
+			core.PrintAllInfo();
+		}
+	
 
 	return 0;
 }

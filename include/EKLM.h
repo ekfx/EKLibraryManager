@@ -6,6 +6,7 @@
 #include "../include/CMD.h" // -> manages the system paths 
 #include "../include/UZIP.h" // -> unzip library
 #include "../include/EKW.h"
+#include <vector>
 
 namespace EKLM {
     class CORE {
@@ -38,8 +39,7 @@ namespace EKLM {
         int Run();
         void PrintInfo();
         void PrintAllInfo();
-        void PrintFLINE();
-        std::string GetCompileLine(const std::string& KEY);
+        std::string GetCompileLine(const std::vector<std::string>& KEY, EKLM::EKR& SETTINGS);
         void Delete();
 
     };

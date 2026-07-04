@@ -36,7 +36,5 @@ int EKLM::EKW::RegisterInFile(const std::string& path, const std::string& key, c
         INFO += "EKLM::EKW::REGISTERINFILE::THIS_KEY_ALREADY_EXISTS\n";
         std::cerr << "EKLM::EKW::REGISTERINFILE::THIS_KEY_ALREADY_EXISTS\n";
         return -1;
-    }
-
-    
+    }   
 }

@@ -46,8 +46,11 @@ int EKLM::EKR::Init(std::filesystem::path path)
 
 			}
 
-			data.insert({ key, value });
-			auto it = data.find(key);
+			if (line[0] != '#' || line[0] != ' ') {
+				data.insert({ key, value });
+				// std::cout << key << std::endl;
+				auto it = data.find(key);
+			}
 
 			key = "";
 			value = "";

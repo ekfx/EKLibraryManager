@@ -1,2 +1,9 @@
+# Compiler
+compiler=x86_64-w64-mingw32-g++
+version=-std=c++17
+main_file_name=main.cpp
+exit_file_name=main.exe
+modifiers=-o
+# Directories to data files
 source=C:\\EKLMD\\DATA\\data.ek
 download_dir=C:\\EKLMD\\
